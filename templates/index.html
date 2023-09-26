@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>Flask + USOS PW OAuth 1.0a Demo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+        integrity="sha256-MBffSnbbXwHCuZtgPYiwMQbfE7z+GOZ7fBPCNB06Z98=" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="#">Flask + USOS API OAuth Demo</a>
+      </div>
+    </nav>
+    <div class="container mt-3">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="alert alert-info" role="alert">
+          {% for message in messages %}
+            {{ message }}<br>
+          {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% if current_user.is_authenticated %}
+        <h2>Hi, {{ current_user.display_name }}!</h2>
+        <p>
+          <a class="btn btn-primary" href="{{ url_for('logout') }}">Logout</a>
+        </p>
+        <p>Your data:</p>
+        <table class="table">
+            <tr><td>First name</td><td>{{ current_user.first_name }}</td></tr>
+            <tr><td>Last name</td><td>{{ current_user.last_name }}</td></tr>
+            <tr><td>USOS ID</td><td>{{ current_user.usos_id }}</td></tr>
+            <tr><td>Student ID</td><td>{{ current_user.student_number }}</td></tr>
+            <tr><td>E-mail</td><td>{{ current_user.email }}</td></tr>
+        </table>
+        <p>
+            You can check app you granted access to your USOS account at: <a href="https://apps.usos.pw.edu.pl/apps/">https://apps.usos.pw.edu.pl/apps/</a>
+        </p>
+      {% else %}
+        <p>
+          <a class="btn btn-primary" href="{{ url_for('oauth_authorize') }}">Login with PW USOS</a>
+        </p>
+      {% endif %}
+    </div>
+  </body>
+</html>
